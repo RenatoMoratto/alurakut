@@ -15,7 +15,7 @@ export default function Home() {
   const usuarioAleatorio = 'RenatoMoratto';
   const pessoasFavoritas = [
     'juunegreiros', 
-    'omariosuto', 
+    'omariosouto', 
     'peas', 
     'rafaballerini', 
     'marcobrunodev',
