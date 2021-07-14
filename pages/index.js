@@ -12,20 +12,20 @@ function ProfileSideBar (props) {
 }
 
 export default function Home() {
-  const usuarioAleatorio = 'RenatoMoratto';
+  const usuario = 'RenatoMoratto';
   const pessoasFavoritas = require('../followers/followers.json');
-  
+
   return (
     <>
       <AlurakutMenu />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
-          <ProfileSideBar githubUser={usuarioAleatorio } />
+          <ProfileSideBar githubUser={ usuario } />
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
               <h1 className="title">
-                Bem vindo(a)
+                Bem vindo(a) { usuario }
               </h1>
 
               <OrkutNostalgicIconSet sexy="1" confiavel="3" legal="2" />
