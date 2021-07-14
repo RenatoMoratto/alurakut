@@ -13,15 +13,8 @@ function ProfileSideBar (props) {
 
 export default function Home() {
   const usuarioAleatorio = 'RenatoMoratto';
-  const pessoasFavoritas = [
-    'juunegreiros', 
-    'omariosouto', 
-    'peas', 
-    'rafaballerini', 
-    'marcobrunodev',
-    'felipefialho'
-  ]
-
+  const pessoasFavoritas = require('../followers/followers.json');
+  
   return (
     <>
       <AlurakutMenu />
@@ -29,13 +22,13 @@ export default function Home() {
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSideBar githubUser={usuarioAleatorio } />
         </div>
-        <div className="wlecomeArea" style={{ gridArea: 'welcomeArea' }}>
+        <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
               <h1 className="title">
                 Bem vindo(a)
               </h1>
 
-              <OrkutNostalgicIconSet />
+              <OrkutNostalgicIconSet sexy="1" confiavel="3" legal="2" />
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
@@ -48,9 +41,9 @@ export default function Home() {
               {pessoasFavoritas.map((itemAtual) => {
                 return (
                   <li>
-                    <a href={`/users/${itemAtual}`} key={itemAtual}> 
-                      <img src={`https://github.com/${itemAtual}.png`} />
-                      <span>{itemAtual}</span>
+                    <a href={`/users/${itemAtual.login}`} key={itemAtual.login}> 
+                      <img src={`https://github.com/${itemAtual.login}.png`} />
+                      <span>{itemAtual.login}</span>
                     </a>
                   </li>
                 );
