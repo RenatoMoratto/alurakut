@@ -164,7 +164,7 @@ export default function Home() {
                 {comunidades.map((itemAtual) => {
                   return (
                     <li key={itemAtual.id}>
-                      <a href={`https://www.google.com/search?q=${itemAtual.id}`} target="_blank"> 
+                      <a href={`https://www.google.com/search?q=${itemAtual.title}`} target="_blank"> 
                         <img src={itemAtual.imageUrl} />
                         <span>{itemAtual.title}</span>
                       </a>
@@ -173,7 +173,26 @@ export default function Home() {
                 })}
               </ul>
           </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBox title="Pessoas da Comunidade" items={pessoasDaComunidade} />
+
+          <ProfileRelationsBoxWrapper>
+            <h2 className="samllTitle">
+              Pessoas da comunidade ({pessoasFavoritas.length})
+            </h2>
+            <ul>
+              {pessoasFavoritas.map((itemAtual) => {
+                return (
+                  <li key={itemAtual.login}>
+                    <a href={`/users/${itemAtual.login}`} > 
+                      <img src={`https://github.com/${itemAtual.login}.png`} />
+                      <span>{itemAtual.login}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
+
+          {/* <ProfileRelationsBox title="Pessoas da Comunidade" items={pessoasDaComunidade} /> */}
         </div>
       </MainGrid>
     </>
