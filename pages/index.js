@@ -96,7 +96,7 @@ export default function Home() {
                 {comunidades.map((itemAtual) => {
                   return (
                     <li key={itemAtual.id}>
-                      <a href={`/users/${itemAtual.title}`}> 
+                      <a href={`https://www.google.com/search?q=${itemAtual.title}`} target="_blank"> 
                         <img src={itemAtual.image} />
                         <span>{itemAtual.title}</span>
                       </a>
