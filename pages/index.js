@@ -55,8 +55,8 @@ export default function Home() {
   // Array de dados do GitHub
   React.useEffect(() => {
     fetch(`https://api.github.com/users/${usuario}/followers`)
-    .then(respostaDoServidor => respostaDoServidor.json())
-    .then(respostaCompleta => setSeguidores(respostaCompleta))
+      .then(respostaDoServidor => respostaDoServidor.json())
+      .then(respostaCompleta => setSeguidores(respostaCompleta))
 
   // API GraphQL
     fetch(`https://graphql.datocms.com/`, {
@@ -75,8 +75,8 @@ export default function Home() {
         }
       }` })
     })
-    .then(response => response.json())
-    .then(respostaCompleta => setComunidades(respostaCompleta.data.allCommunities))
+      .then(response => response.json())
+      .then(respostaCompleta => setComunidades(respostaCompleta.data.allCommunities))
 
   }, []);
 
@@ -104,13 +104,25 @@ export default function Home() {
               const dadosDoForm = new FormData(e.target);
               
               const comunidade = {
-                id: new Date().toISOString,
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('imageUrl') ? dadosDoForm.get('imageUrl') : `https://picsum.photos/300/300?${new Date().getTime()}`, 
-                // Se não tiver URL, gera uma aleatória
+                imageUrl: dadosDoForm.get('imageUrl') ? dadosDoForm.get('imageUrl') : `https://picsum.photos/300/300?${new Date().getTime()}`,  // Se não tiver URL, gera uma aleatória
+                creatorSlug: usuario,
               }
-              const comunidadesAtualizadas = [...comunidades, comunidade]
-              setComunidades(comunidadesAtualizadas);
+
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade),
+              })
+                .then(async response => {
+                  const dados = await response.json();
+                  const comunidade = dados.registroCriado;
+                  const comunidadesAtualizadas = [...comunidades, comunidade];
+                  setComunidades(comunidadesAtualizadas);
+                })
+
             }}>
               
               <div>
