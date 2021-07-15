@@ -57,7 +57,8 @@ export default function Home() {
               const comunidade = {
                 id: new Date().toISOString,
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image'),
+                image: dadosDoForm.get('image') ? dadosDoForm.get('image') : `https://picsum.photos/300/300?${new Date().getTime()}`, 
+                // Se não tiver URL, gera uma aleatória
               }
               const comunidadesAtualizadas = [...comunidades, comunidade]
               setComunidades(comunidadesAtualizadas);
@@ -73,9 +74,9 @@ export default function Home() {
               </div>
               <div>
                 <input 
-                  placeholder="Coloque uma URL para usarmos de capa" 
+                  placeholder="Coloque uma URL para usarmos de capa | Deixe vazio para uma foto alatória" 
                   name="image"
-                  aria-label="Coloque uma URL para usarmos de capa"
+                  aria-label="Coloque uma URL para usarmos de capa | Deixe vazio para uma foto alatória"
                 />
               </div>
 
