@@ -22,6 +22,29 @@ function ProfileSideBar (props) {
   );
 }
 
+function ProfileRelationsBox(props){
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="samllTitle">
+        {props.title} ({props.items.length})
+      </h2>
+
+      <ul>
+        {props.items.map((itemAtual) => {
+          return (
+            <li key={itemAtual.id}>
+              <a href={`https://www.github.com/${itemAtual.login}`} target="_blank"> 
+                <img src={`https://www.github.com/${itemAtual.login}.png`} />
+                <span>{itemAtual.login}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  );
+}
+
 export default function Home() {
   const usuario = 'RenatoMoratto';
   const [comunidades, setComunidades] = React.useState([{
@@ -30,6 +53,14 @@ export default function Home() {
     image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
   }]);
   const pessoasFavoritas = require('../followers/followers.json');
+
+  const [seguidores, setSeguidores] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch(`https://api.github.com/users/${usuario}/followers`)
+    .then(respostaDoServidor => respostaDoServidor.json())
+    .then(respostaCompleta => setSeguidores(respostaCompleta))
+  }, []);
 
   return (
     <>
@@ -87,6 +118,8 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
+          
           <ProfileRelationsBoxWrapper>
             <h2 className="samllTitle">
               Comunidades ({comunidades.length})
