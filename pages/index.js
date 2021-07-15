@@ -47,15 +47,20 @@ function ProfileRelationsBox(props){
 
 export default function Home() {
   const usuario = 'RenatoMoratto';
-  const pessoasFavoritas = require('../followers/followers.json');
 
+  const [pessoasDaComunidade, setPessoasDaComunidade] = React.useState([]);
   const [comunidades, setComunidades] = React.useState([]);
   const [seguidores, setSeguidores] = React.useState([]);
 
-  // Array de dados do GitHub
+
   React.useEffect(() => {
+    // Array de dados do GitHub
+    fetch(`https://api.github.com/users/${usuario}/following`)
+      .then(response => response.json())
+      .then(respostaCompleta => setPessoasDaComunidade(respostaCompleta))
+
     fetch(`https://api.github.com/users/${usuario}/followers`)
-      .then(respostaDoServidor => respostaDoServidor.json())
+      .then(response => response.json())
       .then(respostaCompleta => setSeguidores(respostaCompleta))
 
   // API GraphQL
@@ -168,24 +173,7 @@ export default function Home() {
                 })}
               </ul>
           </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-            <h2 className="samllTitle">
-              Pessoas da comunidade ({pessoasFavoritas.length})
-            </h2>
-
-            <ul>
-              {pessoasFavoritas.map((itemAtual) => {
-                return (
-                  <li key={itemAtual.login}>
-                    <a href={`/users/${itemAtual.login}`} > 
-                      <img src={`https://github.com/${itemAtual.login}.png`} />
-                      <span>{itemAtual.login}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBox title="Pessoas da Comunidade" items={pessoasDaComunidade} />
         </div>
       </MainGrid>
     </>
