@@ -47,19 +47,37 @@ function ProfileRelationsBox(props){
 
 export default function Home() {
   const usuario = 'RenatoMoratto';
-  const [comunidades, setComunidades] = React.useState([{
-    id: '216375906215401474032541',
-    title: 'Eu odeio acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
-  }]);
   const pessoasFavoritas = require('../followers/followers.json');
 
+  const [comunidades, setComunidades] = React.useState([]);
   const [seguidores, setSeguidores] = React.useState([]);
 
+  // Array de dados do GitHub
   React.useEffect(() => {
     fetch(`https://api.github.com/users/${usuario}/followers`)
     .then(respostaDoServidor => respostaDoServidor.json())
     .then(respostaCompleta => setSeguidores(respostaCompleta))
+
+  // API GraphQL
+    fetch(`https://graphql.datocms.com/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'ca5d5c9c520e2670cea1544ad5efeb',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({"query": `query {
+        allCommunities {
+          title
+          id
+          imageUrl
+          creatorSlug
+        }
+      }` })
+    })
+    .then(response => response.json())
+    .then(respostaCompleta => setComunidades(respostaCompleta.data.allCommunities))
+
   }, []);
 
   return (
@@ -88,7 +106,7 @@ export default function Home() {
               const comunidade = {
                 id: new Date().toISOString,
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image') ? dadosDoForm.get('image') : `https://picsum.photos/300/300?${new Date().getTime()}`, 
+                image: dadosDoForm.get('imageUrl') ? dadosDoForm.get('imageUrl') : `https://picsum.photos/300/300?${new Date().getTime()}`, 
                 // Se não tiver URL, gera uma aleatória
               }
               const comunidadesAtualizadas = [...comunidades, comunidade]
@@ -106,7 +124,7 @@ export default function Home() {
               <div>
                 <input 
                   placeholder="Coloque uma URL para usarmos de capa | Deixe vazio para uma foto alatória" 
-                  name="image"
+                  name="imageUrl"
                   aria-label="Coloque uma URL para usarmos de capa | Deixe vazio para uma foto alatória"
                 />
               </div>
@@ -129,8 +147,8 @@ export default function Home() {
                 {comunidades.map((itemAtual) => {
                   return (
                     <li key={itemAtual.id}>
-                      <a href={`https://www.google.com/search?q=${itemAtual.title}`} target="_blank"> 
-                        <img src={itemAtual.image} />
+                      <a href={`https://www.google.com/search?q=${itemAtual.id}`} target="_blank"> 
+                        <img src={itemAtual.imageUrl} />
                         <span>{itemAtual.title}</span>
                       </a>
                     </li>
