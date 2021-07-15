@@ -174,25 +174,8 @@ export default function Home() {
               </ul>
           </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBoxWrapper>
-            <h2 className="samllTitle">
-              Pessoas da comunidade ({pessoasFavoritas.length})
-            </h2>
-            <ul>
-              {pessoasFavoritas.map((itemAtual) => {
-                return (
-                  <li key={itemAtual.login}>
-                    <a href={`/users/${itemAtual.login}`} > 
-                      <img src={`https://github.com/${itemAtual.login}.png`} />
-                      <span>{itemAtual.login}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBox title="Pessoas da comunidade" items={pessoasDaComunidade} />
 
-          {/* <ProfileRelationsBox title="Pessoas da Comunidade" items={pessoasDaComunidade} /> */}
         </div>
       </MainGrid>
     </>
